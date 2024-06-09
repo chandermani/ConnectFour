@@ -10,7 +10,7 @@ Requires .Net SDK 7.0 or greater
 - Run the following commands 
   - `dotnet restore`
   - `dotnet build`
-
+  - `dotnet test`
 # Running the game
 From command line
 - `dotnet run ./ConnectFour/ConnectFour.csproj` 
