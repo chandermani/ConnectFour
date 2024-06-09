@@ -18,7 +18,7 @@ public class Token
 }
 
 public class Board {
-    private Token[,] b;
+    private Token[,] boardTokens;
     private int[] nextEmptySlotInColumns;
 
     public int Rows { get; }
@@ -28,14 +28,12 @@ public class Board {
     public Board(int rows = 6, int columns = 7, TokenType firstMover = TokenType.BLUE) {
         this.Rows = rows;
         this.Columns = columns;
-        b = new Token[rows, columns];
+        boardTokens = new Token[rows, columns];
         nextEmptySlotInColumns = new int[columns];
         this.CurrentTurn = firstMover;
     }
 
     public bool ColumnFull(int toColumn) => nextEmptySlotInColumns[toColumn] >= this.Rows;
-
-    public int NextAddition(int toColumn) => nextEmptySlotInColumns[toColumn] + 1;
 
     public Token DropToken(int toColumn)
     {
@@ -52,7 +50,7 @@ public class Board {
         int toRow = this.nextEmptySlotInColumns[toColumn];
 
         var token = new Token(this.CurrentTurn, toRow, toColumn);
-        b[toRow, toColumn] = token;
+        boardTokens[toRow, toColumn] = token;
         nextEmptySlotInColumns[toColumn] += 1;
         FlipTurn();
         return token;
