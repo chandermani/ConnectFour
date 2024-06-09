@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConnectFour
 {
@@ -30,6 +27,10 @@ namespace ConnectFour
                 if (input?.ToLower() == "q")
                 {
                     break;
+                }
+                if(string.IsNullOrEmpty( input ) )
+                {
+                    continue;
                 }
                 var column = int.Parse(input ?? "-1");
                 var token = board.DropToken(column);

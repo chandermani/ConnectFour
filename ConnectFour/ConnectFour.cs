@@ -1,35 +1,19 @@
-public enum TokenType
-{
-    RED = 1,
-    BLUE = 2
-}
-
-public class Token
-{
-    public TokenType TokenType { get; private set; }
-
-    public int Row { get; private set; }
-    public int Column { get; private set; }
-    public Token(TokenType tokenType, int row, int column) {
-        this.Row = row;
-        this.Column = column;
-        this.TokenType = tokenType;
-    }
-}
-
 public class Board {
     private const int WinningSequenceLength = 4;
     private Token[,] boardTokens;
     private int[] nextEmptySlotInColumns;
 
-
     public int Rows { get; }
+    
     public int Columns { get; }
+    
     public TokenType CurrentTurn { get; private set; }
+    
     public TokenType? GameWinner { get; private set; }
-    public bool ColumnFull(int toColumn) => nextEmptySlotInColumns[toColumn] >= this.Rows;
-
+    
     public bool GameOver => GameWinner != null;
+
+    public bool ColumnFull(int column) => nextEmptySlotInColumns[column] >= this.Rows;
 
     public Board(int rows = 6, int columns = 7, TokenType firstMover = TokenType.BLUE) {
         this.Rows = rows;
@@ -38,7 +22,6 @@ public class Board {
         nextEmptySlotInColumns = new int[columns];
         this.CurrentTurn = firstMover;
     }
-
 
     public Token DropToken(int toColumn)
     {
@@ -57,12 +40,16 @@ public class Board {
 
         var token = new Token(this.CurrentTurn, toRow, toColumn);
         boardTokens[toRow, toColumn] = token;
-        if(IsWinningMove(token))
+
+        if (IsWinningMove(token))
         {
             EndGame();
         }
-        nextEmptySlotInColumns[toColumn] += 1;
-        FlipTurn();
+        else
+        {
+            nextEmptySlotInColumns[toColumn] += 1;
+            FlipTurn();
+        }
         return token;
     }
 
@@ -83,6 +70,7 @@ public class Board {
 
     private bool IsWinningMove(Token last)
     {
+        // TODO: The winning strategy logic can be exernalized instead of implementing this in the Board class.
         // From the last token added traverse in all direction to find if the is a sequence of the desired length
         // Subtracting one as double counting the last token due to two calls to MatchInDirection
         return
