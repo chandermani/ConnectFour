@@ -45,7 +45,7 @@ namespace ConnectFour.Tests
 
             // Assert
             var expectedMoves = expectedRows.Zip(nextMoves);
-            Assert.Equal(tokens.Select((t, i) => (t.X, t.Y)), expectedMoves);
+            Assert.Equal(tokens.Select((t, i) => (t.Row, t.Column)), expectedMoves);
         }
 
         [Theory]
@@ -62,5 +62,45 @@ namespace ConnectFour.Tests
             // Assert
             Assert.Equal(tokens.Select((t) => t.TokenType), expectedPlayers);
         }
+
+        // TODO: A lot many game play tests can be added for column
+        [Theory]
+        [InlineData(TokenType.BLUE, new int[] { 0, 1, 0, 1, 0, 1,0 }, TokenType.BLUE)]
+        [InlineData(TokenType.RED, new int[] { 0, 1, 0, 1, 0, 1,0 }, TokenType.RED)]
+        public void ShouldDeclareAWinnerIfFourInSequenceInColumn(TokenType firstMover, int[] nextMoves, TokenType expectedWinner)
+        {
+            // Arrange
+            Board target = new Board(8, 10, firstMover);
+
+            // Act
+            var tokens = nextMoves.Select(c => target.DropToken(c)).ToList();
+
+            // Assert
+            Assert.True(target.GameWinner==expectedWinner);
+            Assert.True(target.GameOver);
+        }
+
+        [Theory]
+        [InlineData(TokenType.BLUE, new int[] { 0, 1, 0, 1, 0 })]
+        [InlineData(TokenType.RED, new int[] { 0, 1, 0, })]
+        public void ShouldNotDeclareWinnerUnlessFourInSequence(TokenType firstMover, int[] nextMoves)
+        {
+            // Arrange
+            Board target = new Board(8, 10, firstMover);
+
+            // Act
+            var tokens = nextMoves.Select(c => target.DropToken(c)).ToList();
+
+            // Assert
+            Assert.Null(target.GameWinner);
+            Assert.False(target.GameOver);
+        }
+
+        /**
+         * TODO: Game play tests to be added
+         * ShouldDeclareAWinnerIfFourInSequenceInRow
+         * ShouldDeclareAWinnerIfFourInSequenceInDiagonal1
+         * ShouldDeclareAWinnerIfFourInSequenceInDiagonal2
+         */
     }
 }
