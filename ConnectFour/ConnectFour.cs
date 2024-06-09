@@ -21,17 +21,15 @@ public class Board {
     private const int WinningSequenceLength = 4;
     private Token[,] boardTokens;
     private int[] nextEmptySlotInColumns;
-    
+
 
     public int Rows { get; }
     public int Columns { get; }
     public TokenType CurrentTurn { get; private set; }
-
     public TokenType? GameWinner { get; private set; }
-
     public bool ColumnFull(int toColumn) => nextEmptySlotInColumns[toColumn] >= this.Rows;
 
-    public bool GameOver => GameWinner!=null;
+    public bool GameOver => GameWinner != null;
 
     public Board(int rows = 6, int columns = 7, TokenType firstMover = TokenType.BLUE) {
         this.Rows = rows;
@@ -68,10 +66,21 @@ public class Board {
         return token;
     }
 
+    public Token[][] GetGameState()
+    {
+        Token[][] state = new Token[Rows][];
+        for (int r = 0; r < state.Length; r++)
+        {
+            state[r] = Enumerable.Range(0, Columns).Select(c => this.boardTokens[r, c]).ToArray();
+        }
+        return state;
+    }
+
     private void EndGame()
     {
         this.GameWinner = this.CurrentTurn;
     }
+
     private bool IsWinningMove(Token last)
     {
         // From the last token added traverse in all direction to find if the is a sequence of the desired length

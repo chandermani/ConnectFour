@@ -1,2 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+using ConnectFour;
+
+GamePlay gamePlay = new GamePlay();
+gamePlay.Start();
