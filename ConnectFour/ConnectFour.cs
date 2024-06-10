@@ -70,7 +70,7 @@ public class Board {
 
     private bool IsWinningMove(Token last)
     {
-        // TODO: The winning strategy logic can be exernalized instead of implementing this in the Board class.
+        // TODO: The winning logic can be exernalized instead of implementing this in the Board class.
         // From the last token added traverse in all direction to find if the is a sequence of the desired length
         // Subtracting one as double counting the last token due to two calls to MatchInDirection
         return

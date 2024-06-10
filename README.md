@@ -19,5 +19,5 @@ Enjoy!
 
 Some possible improvements
 - Tests are not extensive and lack some cases as highlighted in the test file too.
-- The winning strategy implemenation can be moved out of Board class, for extensibility
+- The winning logic implemenation can be moved out of Board class, for extensibility
 - The GamePlay class has not been tested.
